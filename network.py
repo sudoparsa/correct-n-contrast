@@ -151,7 +151,39 @@ def backprop_(model, optimizer, train_stage, args, scheduler=None):
         if scheduler is not None:
             scheduler.step()
         optimizer.zero_grad()
-    
+
+
+# Load model
+def load_checkpoint(model, checkpoint_path: str):
+    if not os.path.exists(checkpoint_path):
+        raise FileNotFoundError(checkpoint_path)
+    else:
+        state = torch.load(checkpoint_path)
+        i = 0
+        if isinstance(model, torch.nn.DataParallel):
+            model_dict = model.module.state_dict()
+        else:
+            model_dict = model.state_dict()
+        model_keys = list(model_dict.keys())
+        state_temp = state
+        if 'model' in state.keys():
+            state_temp = state['model']
+        for key in list(state_temp.keys()):
+            if i < len(model_keys) and model_keys[i] in key:
+                model_dict[model_keys[i]] = state_temp[key]
+                i += 1
+        if isinstance(model, torch.nn.DataParallel):
+            model.module.load_state_dict(model_dict)
+        else:
+            model.load_state_dict(model_dict)
+        del state
+        torch.cuda.empty_cache()
+        return model
+
+def load_pretrained_model2(path, args):
+    net = get_net(args)
+    net = load_checkpoint(net, path)
+    return net
 
 def load_pretrained_model(path, args):
     checkpoint = torch.load(path)
