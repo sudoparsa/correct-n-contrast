@@ -31,8 +31,7 @@ from utils.logging import Logger, log_args, summarize_acc, initialize_csv_metric
 from utils.visualize import plot_confusion, plot_data_batch
 from utils.metrics import compute_resampled_mutual_info, compute_mutual_info_by_slice
 # Model
-from network import get_net, get_optim, get_criterion, load_pretrained_model, save_checkpoint
-from network import get_output, backprop_, get_bert_scheduler, _get_linear_schedule_with_warmup
+from network import *
 # U-MAPS
 from activations import visualize_activations
 # Contrastive
@@ -623,7 +622,7 @@ def main():
     # -------------------
     if args.pretrained_spurious_path != '':
         print_header('> Loading spurious model')
-        erm_model = load_pretrained_model(args.pretrained_spurious_path, args)
+        erm_model = load_pretrained_model2(args.pretrained_spurious_path, args)
         erm_model.eval()
         args.mode = 'train_spurious'
     else:
