@@ -33,8 +33,8 @@ def summarize_acc(correct_by_groups, total_by_groups, stdout=True):
         print(average_str)
         print(robust_str)
         print('-' * len(average_str))
-    return all_correct / all_total * 100, min_acc
-
+    # return all_correct / all_total * 100, min_acc
+    return min_acc
 
 def initialize_csv_metrics(args):
     test_metrics = {'epoch': [], 'target': [], 'spurious': [],
