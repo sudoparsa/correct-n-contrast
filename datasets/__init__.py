@@ -18,7 +18,7 @@ def initialize_data(args):
     visualize_dataset = getattr(dataset_module, 'visualize_dataset')
     
     if 'waterbirds' in args.dataset:
-        args.root_dir = '../slice-and-dice-smol/datasets/data/Waterbirds/'
+        args.root_dir = '/home/f_hosseini/parsa/data/waterbirds'
         # args.root_dir = './datasets/data/Waterbirds/'
         args.target_name = 'waterbird_complete95'
         args.confounder_names = ['forest2water2']
@@ -41,7 +41,7 @@ def initialize_data(args):
     
     elif 'celebA' in args.dataset:
         # args.root_dir = './datasets/data/CelebA/'  
-        args.root_dir = '/dfs/scratch0/nims/CelebA/celeba/'
+        args.root_dir = '/home/f_hosseini/parsa/data/celeba'
         # IMPORTANT - dataloader assumes that we have directory structure
         # in ./datasets/data/CelebA/ :
         # |-- list_attr_celeba.csv
